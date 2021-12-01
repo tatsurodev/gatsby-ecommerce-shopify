@@ -24,7 +24,6 @@ module.exports = {
         ],
       },
     },
-    /*
     {
       resolve: 'gatsby-source-shopify',
       options: {
@@ -33,7 +32,6 @@ module.exports = {
         apiVersion: '2020-07',
       },
     },
-    */
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
