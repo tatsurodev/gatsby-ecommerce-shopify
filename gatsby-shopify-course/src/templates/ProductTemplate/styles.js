@@ -17,3 +17,12 @@ export const Grid = styled.section`
     }
   }
 `;
+
+export const SelectWrapper = styled.div`
+  margin-top: 40px;
+
+  > strong {
+    display: block;
+    margin-bottom: 8px;
+  }
+`;
