@@ -2,11 +2,13 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import { Layout, ImageGallery } from 'components';
 import { Grid } from './styles';
+import CartContext from 'context/CartContext';
 
 // page queryでは、graphql内でpageContextの変数にaccessできる
 export const query = graphql`
   query ProductQuery($shopifyId: String) {
     shopifyProduct(shopifyId: { eq: $shopifyId }) {
+      shopifyId
       title
       description
       images {
@@ -24,6 +26,13 @@ export const query = graphql`
 `;
 
 export default function ProductTemplate(props) {
+  const { getProductById } = React.useContext(CartContext);
+  React.useEffect(() => {
+    getProductById(props.data.shopifyProduct.shopifyId).then(result => {
+      console.log(result);
+    });
+  }, [getProductById]);
+
   return (
     <Layout>
       <Grid>
