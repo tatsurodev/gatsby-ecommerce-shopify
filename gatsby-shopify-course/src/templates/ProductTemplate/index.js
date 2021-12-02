@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import { Layout } from 'components';
+import { Layout, ImageGallery } from 'components';
 import { Grid } from './styles';
 
 // page queryでは、graphql内でpageContextの変数にaccessできる
@@ -13,7 +13,7 @@ export const query = graphql`
         localFile {
           childImageSharp {
             fluid(maxWidth: 300) {
-              src
+              ...GatsbyImageSharpFluid_withWebp
             }
           }
         }
@@ -23,7 +23,6 @@ export const query = graphql`
 `;
 
 export default function ProductTemplate(props) {
-  console.log(props);
   return (
     <Layout>
       <Grid>
@@ -31,7 +30,9 @@ export default function ProductTemplate(props) {
           <h1>{props.data.shopifyProduct.title}</h1>
           <p>{props.data.shopifyProduct.description}</p>
         </div>
-        <div>image</div>
+        <div>
+          <ImageGallery images={props.data.shopifyProduct.images} />
+        </div>
       </Grid>
     </Layout>
   );
