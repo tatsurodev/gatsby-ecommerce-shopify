@@ -73,19 +73,21 @@ export default function ProductTemplate(props) {
           {/* productの全variantsのquantityが0の時、availableForSaleがfalseとなるので、availableForSaleがtrueの時、つまり在庫がある時のみvariantsを表示する */}
           {product?.availableForSale && !!selectedVariant && (
             <>
-              <SelectWrapper>
-                <strong>Variant</strong>
-                <select
-                  value={selectedVariant.id}
-                  onChange={handleVariantChange}
-                >
-                  {product?.variants.map(v => (
-                    <option key={v.id} value={v.id}>
-                      {v.title}
-                    </option>
-                  ))}
-                </select>
-              </SelectWrapper>
+              {product?.variants.length > 1 && (
+                <SelectWrapper>
+                  <strong>Variant</strong>
+                  <select
+                    value={selectedVariant.id}
+                    onChange={handleVariantChange}
+                  >
+                    {product?.variants.map(v => (
+                      <option key={v.id} value={v.id}>
+                        {v.title}
+                      </option>
+                    ))}
+                  </select>
+                </SelectWrapper>
+              )}
               {!!selectedVariant && <Price>£{selectedVariant.price}</Price>}
             </>
           )}
