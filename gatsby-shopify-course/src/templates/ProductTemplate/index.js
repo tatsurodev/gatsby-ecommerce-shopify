@@ -5,6 +5,7 @@ import { Layout, ImageGallery } from 'components';
 import { Grid, SelectWrapper, Price } from './styles';
 import CartContext from 'context/CartContext';
 import { navigate, useLocation } from '@reach/router';
+import queryString from 'query-string';
 
 // page queryでは、graphql内でpageContextの変数にaccessできる
 export const query = graphql`
@@ -34,13 +35,22 @@ export default function ProductTemplate(props) {
   const { search, origin, pathname } = useLocation();
   // search: search query, origin: main domain name, pathname: url - origin - search
   console.log(search, origin, pathname);
+  const variantId = queryString.parse(search).variant;
 
   React.useEffect(() => {
     getProductById(props.data.shopifyProduct.shopifyId).then(result => {
       setProduct(result);
-      setSelectedVariant(result.variants[0]);
+      setSelectedVariant(
+        // search queryにvariant idが正しくsetされていればそのvariantを、なければ最初のvariantを返す
+        result.variants.find(({ id }) => id === variantId) || result.variants[0]
+      );
     });
-  }, [getProductById, setProduct, props.data.shopifyProduct.shopifyId]);
+  }, [
+    getProductById,
+    setProduct,
+    props.data.shopifyProduct.shopifyId,
+    variantId,
+  ]);
 
   const handleVariantChange = e => {
     const newVariant = product?.variants.find(v => v.id === e.target.value);
@@ -61,11 +71,14 @@ export default function ProductTemplate(props) {
           <h1>{props.data.shopifyProduct.title}</h1>
           <p>{props.data.shopifyProduct.description}</p>
           {/* productの全variantsのquantityが0の時、availableForSaleがfalseとなるので、availableForSaleがtrueの時、つまり在庫がある時のみvariantsを表示する */}
-          {product?.availableForSale && (
+          {product?.availableForSale && !!selectedVariant && (
             <>
               <SelectWrapper>
                 <strong>Variant</strong>
-                <select onChange={handleVariantChange}>
+                <select
+                  value={selectedVariant.id}
+                  onChange={handleVariantChange}
+                >
                   {product?.variants.map(v => (
                     <option key={v.id} value={v.id}>
                       {v.title}
