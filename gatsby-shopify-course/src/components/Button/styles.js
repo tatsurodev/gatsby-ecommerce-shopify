@@ -1,5 +1,14 @@
 import styled, { css } from 'styled-components';
 
+const fullWidthStyles = ({ fullWidth }) => {
+  if (fullWidth) {
+    return css`
+      display: block;
+      width: 100%;
+    `;
+  }
+};
+
 export const Button = styled.button`
   outline: none;
   padding: 0 10px;
@@ -15,6 +24,11 @@ export const Button = styled.button`
   color: black;
   border: 1px solid black;
   white-space: nowrap;
+
+  /* 一行だけなら下記でおｋだが、複数行はcss helperが便利
+   color: ${props => (props.fullWidth ? 'red' : 'blue')};
+  */
+  ${fullWidthStyles}
 
   &:hover:not(:disabled) {
     color: white;
