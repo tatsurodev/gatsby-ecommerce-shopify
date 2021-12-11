@@ -1,11 +1,17 @@
 import React from 'react';
+import { ProductsGridWrapper } from './styles';
+import { ProductTile } from '../ProductTile';
 
 export function ProductsGrid({ products }) {
   return (
-    <section>
+    <ProductsGridWrapper>
       {products.map(product => (
-        <div>{product.title}</div>
+        <ProductTile
+          imageFluid={product.images[0].localFile.childImageSharp.fluid}
+          key={product.shopifyId}
+          title={product.title}
+        />
       ))}
-    </section>
+    </ProductsGridWrapper>
   );
 }
