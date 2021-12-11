@@ -4,7 +4,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 // app全体でconsumeするような変数はcontextで取得すると便利
 const query = graphql`
   {
-    allShopifyCollection {
+    allShopifyCollection(sort: { fields: title, order: ASC }) {
       edges {
         node {
           products {
