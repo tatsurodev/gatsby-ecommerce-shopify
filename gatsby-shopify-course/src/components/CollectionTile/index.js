@@ -7,14 +7,14 @@ import {
 } from './styles';
 import BackgroundImage from 'gatsby-background-image';
 
-export function CollectionTile({ description, title, backgroundImage }) {
+export function CollectionTile({ description, title, backgroundImage, sale }) {
   return (
     <CollectionTileWrapper>
       <BackgroundImage fluid={backgroundImage} />
       <CollectionTileContent>
         <div>
-          <Title>{title}</Title>
-          <Description>{description}</Description>
+          <Title sale={sale}>{title}</Title>
+          <Description sale={sale}>{description}</Description>
         </div>
       </CollectionTileContent>
     </CollectionTileWrapper>
