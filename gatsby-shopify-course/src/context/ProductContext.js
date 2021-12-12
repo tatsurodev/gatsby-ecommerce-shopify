@@ -10,6 +10,13 @@ const query = graphql`
           products {
             # src/fragments.jsで定義したfragmentsは全gatsby上で自動的に使用可
             ...ShopifyProductFields
+            handle
+            # variantsの中から最小のpriceを取得
+            priceRange {
+              minVariantPrice {
+                amount
+              }
+            }
           }
           title
           description
