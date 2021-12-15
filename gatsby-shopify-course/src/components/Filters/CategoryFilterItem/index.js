@@ -11,6 +11,7 @@ export function CategoryFilterItem({ title, id }) {
   // ,の後にemptyな要素があるかもしれないのでそれを排除、query自体がなければcollection idを格納する配列を初期化
   const collectionIds = qs.c?.split(',').filter(c => !!c) || [];
   const checked = collectionIds?.find(cId => cId === id);
+  const searchTerm = qs.s;
 
   const onClick = () => {
     let navigateTo = '/all-products';
@@ -25,9 +26,20 @@ export function CategoryFilterItem({ title, id }) {
       collectionIds.push(id);
       newIds = collectionIds.map(cId => encodeURIComponent(cId));
     }
-    // categoryが選択されていない、つまりcollection idが0の時、?cのqueryをつけないようにする
-    if (newIds.length) {
+    // categoryが選択されている & 検索ワードなし、つまりcollection idが0でない & searchTerm falseの時、?cのqueryをつけないようにする
+    if (newIds.length && !searchTerm) {
       navigate(`${navigateTo}?c=${newIds.join(',')}`);
+      // categoryが選択されている & 検索ワードあり
+    } else if (newIds.length && !!searchTerm) {
+      navigate(
+        `${navigateTo}?c=${newIds.join(',')}&s=${encodeURIComponent(
+          searchTerm
+        )}`
+      );
+      // categoryが選択されていない & 検索ワードあり
+    } else if (!newIds.length && !!searchTerm) {
+      navigate(`${navigateTo}?s=${encodeURIComponent(searchTerm)}`);
+      // categoryが選択されていない & 検索ワードなし
     } else {
       navigate(`${navigateTo}`);
     }
