@@ -15,6 +15,9 @@ export function HomepageCollectionsGrid({ collections }) {
       {!!saleCollection && (
         <CollectionTile
           sale
+          destination={`/all-products?c=${encodeURIComponent(
+            saleCollection.shopifyId
+          )}`}
           title={saleCollection.title}
           description={saleCollection.description}
           backgroundImage={
@@ -25,6 +28,9 @@ export function HomepageCollectionsGrid({ collections }) {
       <RemainingCollections>
         {remainingCollections.map(collection => (
           <CollectionTile
+            destination={`/all-products?c=${encodeURIComponent(
+              collection.shopifyId
+            )}`}
             title={collection.title}
             description={collection.description}
             // imageがnullなcollectionもあるのでoptional
